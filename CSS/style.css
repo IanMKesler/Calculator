@@ -12,8 +12,14 @@ body {
     vertical-align: middle;
 }
 
-.display {
+.display-container {
     background-color: black;
+    height: 100px;
+    width: 500px;
+    
+}
+
+#display {
     color: white;
 }
 
@@ -57,6 +63,11 @@ body {
 .operations-container {
     display: grid;
     grid-template-columns: auto auto;
+}
+
+.operate {
+    display: grid;
+    grid-template-columns: auto;
 }
 
 .equals {
