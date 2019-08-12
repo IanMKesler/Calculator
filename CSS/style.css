@@ -1,0 +1,66 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.display {
+    background-color: black;
+    color: white;
+}
+
+.keypad-container{
+    height: 500px;
+    width: 500px;
+    
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto auto;
+}
+
+
+.first-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.second-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.third-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fourth-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operations-container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.equals {
+    width: 100%;
+    height: 100%;
+}
+
