@@ -38,33 +38,81 @@ function evaluate(string) {
 
 }
 
-function display(event) {
-    let button = this.innerHTML;
-    let operator = button.match(regExp);
+function displayAnswer(expression) {
+    answer = evaluate(expression).toString();
+    if (answer == 'NaN'){
+        answer = 'ERROR';
+    
+        
+    }
+    document.getElementById('answer').innerHTML = answer;
+    op = undefined;
+    exp = answer;
+}
+
+function setOp(operator) {
     if(operator) {
         op = operator[0];
     } 
-    
-    string += button;
-    
-    document.getElementById('display').innerHTML = string;
+}
 
-    if (button=='=') {
-        let answer = evaluate(string).toString();
-        answer != 'NaN' ? string += answer: string += 'ERROR';
-        document.getElementById('display').innerHTML = string;
+
+function display(event) {
+    let button = this.innerHTML;
+    let operator = button.match(regExp);
+
+    if(operator && op) {
+        displayAnswer(exp);
+    }
+    setOp(operator);
+
+    if(!answer){
+        string += button;
+        exp += button;
+
+        if (button=='=') {
+            displayAnswer(string);
+        } 
+        
+    } else if(operator && string.includes('=')) {
+        string = answer + op;
+        exp = string;
+        document.getElementById('answer').innerHTML = '';
+        answer = undefined;
+        
+
+    } else if (operator) { 
+        string += button;
+        exp += button;
+        
+    } else {
+        string += button;
+        if(button != '='){
+            exp += button;
+            displayAnswer(exp);
+        }
         
     }
+
+    document.getElementById('display').innerHTML = string;
+    
+    
 }
 
 function clear(event) {
     string = '';
+    exp = '';
     document.getElementById('display').innerHTML = string;
+    document.getElementById('answer').innerHTML = '';
+    op = undefined;
+    answer = undefined;
 }
 
 let string = '';
+let exp = '';
 let regExp = /^[\+\-\*\/]*$/;
-let op;
+let op = undefined;
+let answer = undefined;
 
 var sevenButton = document.querySelector('.seven');
 sevenButton.addEventListener('click', display);
