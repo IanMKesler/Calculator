@@ -56,46 +56,67 @@ function setOp(operator) {
     } 
 }
 
+function valid(command) {
+
+    if(command != null){
+        switch(true) {
+            case string == '':
+                return false;
+            case string[string.length-1].match(regExp) != null:
+                return false;
+            default:
+                return true;
+        }
+    } else {
+        return true;
+    }
+    
+}
+
 
 function display(event) {
     let button = this.innerHTML;
     let operator = button.match(regExp);
 
-    if(operator && op) {
-        displayAnswer(exp);
-    }
-    setOp(operator);
-
-    if(!answer){
-        string += button;
-        exp += button;
-
-        if (button=='=') {
-            displayAnswer(string);
-        } 
-        
-    } else if(operator && string.includes('=')) {
-        string = answer + op;
-        exp = string;
-        document.getElementById('answer').innerHTML = '';
-        answer = undefined;
-        
-
-    } else if (operator) { 
-        string += button;
-        exp += button;
-        
-    } else {
-        string += button;
-        if(button != '='){
-            exp += button;
+    if(valid(operator)){
+        if(operator && op) {
             displayAnswer(exp);
         }
-        
+        setOp(operator);
+    
+        if(!answer){
+            string += button;
+            exp += button;
+    
+            if (button=='=') {
+                displayAnswer(string);
+            } 
+            
+        } else if(operator && string.includes('=')) {
+            string = answer + op;
+            exp = string;
+            document.getElementById('answer').innerHTML = '';
+            answer = undefined;
+            
+    
+        } else if (operator) { 
+            string += button;
+            exp += button;
+            
+        } else {
+            string += button;
+            if(button != '='){
+                exp += button;
+                
+            } else {
+                displayAnswer(exp);
+            }
+            
+        }
+    
+        document.getElementById('display').innerHTML = string;
     }
 
-    document.getElementById('display').innerHTML = string;
-    
     
 }
 
@@ -106,6 +127,22 @@ function clear(event) {
     document.getElementById('answer').innerHTML = '';
     op = undefined;
     answer = undefined;
+}
+
+function backspace(event) {
+    if(string[string.length-1] != '='){
+        string = string.slice(0,-1);
+        if (exp.includes('ERROR')){
+            exp = string;
+        } else {
+            exp = exp.slice(0,-1);
+        }
+        
+        document.getElementById('display').innerHTML = string;
+        if(op){
+            op = undefined;
+        }    
+    }
 }
 
 let string = '';
@@ -161,4 +198,7 @@ clearButton.addEventListener('click', clear);
 
 var equalButton = document.querySelector('.equal');
 equalButton.addEventListener('click', display);
+
+var backspaceButton = document.querySelector('.backspace');
+backspaceButton.addEventListener('click', backspace);
 
