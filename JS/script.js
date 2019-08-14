@@ -33,7 +33,7 @@ function operate(a,b,op){
 function evaluate(string) {
     let parsed = string.split(op);
 
-    return operate(parseInt(parsed[0]),parseInt(parsed[1]),op);
+    return operate(parseFloat(parsed[0]),parseFloat(parsed[1]),op);
     
 
 }
@@ -58,16 +58,34 @@ function setOp(operator) {
 
 function valid(command) {
 
-    if(command != null){
-        switch(true) {
-            case string == '':
+    if(command.match(regExp) != null){ //checks operation
+        switch(true) { 
+            case string == '': //cannot start with operation
                 return false;
-            case string[string.length-1].match(regExp) != null:
+            case string[string.length-1].match(regExp) != null: //cannot have two operations in a row
                 return false;
             default:
                 return true;
         }
-    } else {
+    } else if(command == '.') {
+        switch(true){ //prevent two decimals
+            case !op && exp.includes('.'): //checks first number
+                return false;
+            case op && exp.split(op)[1].includes('.'): //checks second number
+                return false;
+            default:
+                return true;
+        }
+    } else if(command == '=') {
+        switch(true){
+            case string[string.length-1].match(regExp) != null: //equals directly after operation
+                return false;
+            default:
+                return true;
+        }
+    } 
+    
+    else {
         return true;
     }
     
@@ -78,13 +96,13 @@ function display(event) {
     let button = this.innerHTML;
     let operator = button.match(regExp);
 
-    if(valid(operator)){
-        if(operator && op) {
+    if(valid(button)){ //checks for errors
+        if(operator && op) { //string together operators
             displayAnswer(exp);
         }
         setOp(operator);
     
-        if(!answer){
+        if(!answer){ //no answer has displayed
             string += button;
             exp += button;
     
@@ -92,18 +110,26 @@ function display(event) {
                 displayAnswer(string);
             } 
             
-        } else if(operator && string.includes('=')) {
-            string = answer + op;
-            exp = string;
+        } else if(string.includes('=')) { //pushed equals
+            if(operator){
+                string = answer + op;
+                exp = string;
+                
+                answer = undefined;
+            } else {
+                string = button;
+                exp = string;
+
+            }
+
             document.getElementById('answer').innerHTML = '';
-            answer = undefined;
+            
             
     
-        } else if (operator) { 
+        } else if (operator) { //pushed operator
             string += button;
             exp += button;
-            
-        } else {
+        } else { //pushed anything else
             string += button;
             if(button != '='){
                 exp += button;
@@ -113,6 +139,9 @@ function display(event) {
             }
             
         }
+
+        
+        
     
         document.getElementById('display').innerHTML = string;
     }
@@ -142,6 +171,66 @@ function backspace(event) {
         if(op){
             op = undefined;
         }    
+    }
+}
+
+function checkKey(event) {
+    switch (true){
+        case event.key == '1':
+            oneButton.click();
+            break;
+        case event.key == '2':
+            twoButton.click();
+            break;
+        case event.key == '3':
+            threeButton.click();
+            break;
+        case event.key == '4':
+            fourButton.click();
+            break;
+        case event.key == '5':
+            fiveButton.click();
+            break;
+        case event.key == '6':
+            sixButton.click();
+            break;
+        case event.key == '7':
+            sevenButton.click();
+            break;
+        case event.key == '8':
+            eightButton.click();
+            break;
+        case event.key == '9':
+            nineButton.click();
+            break;
+        case event.key == '0':
+            zeroButton.click();
+            break;
+        case event.key == '+':
+            addButton.click();
+            break;
+        case event.key == '-':
+            subtractButton.click();
+            break;
+        case event.key == '*':
+            multiplyButton.click();
+            break;
+        case event.key == '/':
+            divideButton.click();
+            break;
+        case event.key == '.':
+            decimalButton.click();
+            break;
+        case event.key == 'Delete':
+            clearButton.click();
+            break;
+        case event.key == 'Backspace':
+            backspaceButton.click();
+            break;
+        case event.key == '=' || event.key == 'Enter':
+            equalButton.click();
+            break;
+
     }
 }
 
@@ -202,3 +291,7 @@ equalButton.addEventListener('click', display);
 var backspaceButton = document.querySelector('.backspace');
 backspaceButton.addEventListener('click', backspace);
 
+var decimalButton = document.querySelector('.decimal');
+decimalButton.addEventListener('click', display);
+
+document.onkeyup = checkKey;
