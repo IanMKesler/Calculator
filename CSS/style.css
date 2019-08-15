@@ -12,10 +12,31 @@ body {
     vertical-align: middle;
 }
 
+button {
+    background-color: green;
+    color: white;
+    border: 0;
+    font-size: 200%;
+    
+    margin: 0;
+    
+}
+
+.calc-container {
+    background-color: green;
+    border-radius: 25px;
+}
+
+.screen {
+    padding: 20px 20px 10px;
+}
+
+
 .display-container {
     background-color: black;
     height: 100px;
     width: 500px;
+    border-radius: 5px;
     
 }
 
@@ -33,50 +54,32 @@ body {
     width: 500px;
     
     margin: 0;
-    padding: 0;
+    padding: 10px 20px 20px;
     display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+
+    
+}
+
+.add {
+    grid-column: 4;
+    grid-row: 2/span 2;
+}
+
+.equal {
+    grid-column: 4;
+    grid-row: 4/ span 2;
+}
+
+.subtract {
+    font-size: 300%;
 }
 
 
-.first-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
 
-.second-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.third-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.fourth-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.operations-container {
-    display: grid;
-    grid-template-columns: auto auto;
-}
 
-.operate {
-    display: grid;
-    grid-template-columns: auto auto;
-}
-
-.equals {
-    width: 100%;
-    height: 100%;
-}
 
