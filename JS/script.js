@@ -57,6 +57,13 @@ function displayAnswer(expression) {
 
     }
     document.getElementById('answer').innerHTML = answer;
+        if (isOverflown(document.getElementById('answer'))) { //check for screen overflow
+            answer = 'OVERFLOW';
+            document.getElementById('answer').innerHTML = answer
+        }
+
+        
+
     document.getElementById('answer').style.fontFamily = "Courier New";
     op = undefined;
     exp = answer;
