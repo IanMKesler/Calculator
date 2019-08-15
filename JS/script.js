@@ -1,29 +1,29 @@
-function add(a,b){
-    return a+b;
+function add(a, b) {
+    return (a) + b;
 }
 
-function subtract(a,b){
-    return a-b;
+function subtract(a, b) {
+    return a - b;
 }
 
-function multiply(a,b){
-    return a*b;
+function multiply(a, b) {
+    return a * b;
 }
 
-function divide(a,b){
-    return a/b;
+function divide(a, b) {
+    return a / b;
 }
 
-function operate(a,b,op){
-    switch(true){
+function operate(a, b, op) {
+    switch (true) {
         case op == '+':
-            return add(a,b);
+            return add(a, b);
         case op == '-':
-            return subtract(a,b);
+            return subtract(a, b);
         case op == '*':
-            return multiply(a,b);
+            return multiply(a, b);
         case op == '/':
-            return divide(a,b);
+            return divide(a, b);
         default:
             return 'ERROR';
     }
@@ -31,44 +31,56 @@ function operate(a,b,op){
 
 
 function evaluate(string) {
-    let parsed = string.split(op);
+    if (string.includes('e') && op == '+') {
+        let subParse = string.split(op);
+        let temp = subParse[2];
+        subParse.pop();
+        var parsed = [subParse.join('+'), temp];
 
-    return operate(parseFloat(parsed[0]),parseFloat(parsed[1]),op);
-    
+
+    } else {
+        var parsed = string.split(op);
+    }
+
+
+
+    return operate(parseFloat(parsed[0]), parseFloat(parsed[1]), op);
+
 
 }
 
 function displayAnswer(expression) {
     answer = evaluate(expression).toString();
-    if (answer == 'NaN'){
+    if (answer == 'NaN') {
         answer = 'ERROR';
-    
-        
+
+
     }
     document.getElementById('answer').innerHTML = answer;
+    document.getElementById('answer').style.fontFamily = "Courier New";
     op = undefined;
     exp = answer;
 }
 
 function setOp(operator) {
-    if(operator) {
+    if (operator) {
         op = operator[0];
-    } 
+    }
 }
 
 function valid(command) {
 
-    if(command.match(regExp) != null){ //checks operation
-        switch(true) { 
+    if (command.match(regExp) != null) { //checks operation
+        switch (true) {
             case string == '': //cannot start with operation
                 return false;
-            case string[string.length-1].match(regExp) != null: //cannot have two operations in a row
+            case string[string.length - 1].match(regExp) != null: //cannot have two operations in a row
                 return false;
             default:
                 return true;
         }
-    } else if(command == '.') {
-        switch(true){ //prevent two decimals
+    } else if (command == '.') {
+        switch (true) { //prevent two decimals
             case !op && exp.includes('.'): //checks first number
                 return false;
             case op && exp.split(op)[1].includes('.'): //checks second number
@@ -76,19 +88,19 @@ function valid(command) {
             default:
                 return true;
         }
-    } else if(command == '=') {
-        switch(true){
-            case string[string.length-1].match(regExp) != null: //equals directly after operation
+    } else if (command == '=') {
+        switch (true) {
+            case string[string.length - 1].match(regExp) != null: //equals directly after operation
                 return false;
             default:
                 return true;
         }
-    } 
-    
+    }
+
     else {
         return true;
     }
-    
+
 }
 
 
@@ -96,25 +108,25 @@ function display(event) {
     let button = this.innerHTML;
     let operator = button.match(regExp);
 
-    if(valid(button)){ //checks for errors
-        if(operator && op) { //string together operators
+    if (valid(button)) { //checks for errors
+        if (operator && op) { //string together operators
             displayAnswer(exp);
         }
         setOp(operator);
-    
-        if(!answer){ //no answer has displayed
+
+        if (!answer) { //no answer has displayed
             string += button;
             exp += button;
-    
-            if (button=='=') {
+
+            if (button == '=') {
                 displayAnswer(string);
-            } 
-            
-        } else if(string.includes('=')) { //pushed equals
-            if(operator){
+            }
+
+        } else if (string.includes('=')) { //pushed equals
+            if (operator) {
                 string = answer + op;
                 exp = string;
-                
+
                 answer = undefined;
             } else {
                 string = button;
@@ -123,30 +135,41 @@ function display(event) {
             }
 
             document.getElementById('answer').innerHTML = '';
-            
-            
-    
+
+
+
         } else if (operator) { //pushed operator
             string += button;
             exp += button;
         } else { //pushed anything else
             string += button;
-            if(button != '='){
+            if (button != '=') {
                 exp += button;
-                
+
             } else {
                 displayAnswer(exp);
             }
-            
+
         }
 
-        
-        
-    
-        document.getElementById('display').innerHTML = string;
+
+
+        document.getElementById('display').innerHTML = string
+        if (isOverflown(document.getElementById('display'))) { //check for screen overflow
+            string = string.substring(1);
+            document.getElementById('display').innerHTML = string
+        }
+
+        document.getElementById('display').style.fontFamily = "Courier New";
+
     }
 
-    
+
+}
+
+function isOverflown(element) {
+    console.log(element.clientWidth, element.parentElement.clientWidth);
+    return element.clientWidth > element.parentElement.clientWidth;
 }
 
 function clear(event) {
@@ -159,23 +182,23 @@ function clear(event) {
 }
 
 function backspace(event) {
-    if(string[string.length-1] != '='){
-        string = string.slice(0,-1);
-        if (exp.includes('ERROR')){
+    if (string[string.length - 1] != '=') {
+        string = string.slice(0, -1);
+        if (exp.includes('ERROR')) {
             exp = string;
         } else {
-            exp = exp.slice(0,-1);
+            exp = exp.slice(0, -1);
         }
-        
+
         document.getElementById('display').innerHTML = string;
-        if(op){
+        if (op) {
             op = undefined;
-        }    
+        }
     }
 }
 
 function checkKey(event) {
-    switch (true){
+    switch (true) {
         case event.key == '1':
             oneButton.click();
             break;
