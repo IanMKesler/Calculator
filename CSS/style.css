@@ -55,8 +55,6 @@ button {
     height: 100px;
     width: 500px;
     border-radius: 5px;
-    
-
     display: grid;
     grid-template-rows: repeat(2, 1fr);
 }
